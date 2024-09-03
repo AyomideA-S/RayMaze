@@ -17,4 +17,8 @@
 
 #include <SDL2/SDL.h>
 
+/* Screen dimensions */
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
+
 #endif /* MAIN_H_ */

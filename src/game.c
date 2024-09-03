@@ -1,4 +1,5 @@
 #include "game.h"
+#include "raycaster.h"
 
 /**
  * game_loop - Main game loop
@@ -22,6 +23,9 @@ void game_loop(SDL_Renderer *renderer)
 		/* Clear screen */
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 		SDL_RenderClear(renderer);
+
+		/* Perform raycasting and render the scene */
+		render_scene(renderer);
 
 		/* Update screen */
 		SDL_RenderPresent(renderer);
