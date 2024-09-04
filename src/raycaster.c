@@ -138,6 +138,17 @@ void draw_vertical_line(SDL_Renderer *renderer, int x, int draw_start,
 /**
  * render_scene - Render the scene using raycasting techniques
  *
+ * Raycasting is a technique used in computer graphics to render a 3D scene
+ * from a 2D perspective. It involves casting rays from the viewpoint of the
+ * camera and determining the intersection points with objects in the scene.
+ *
+ * This allows for the creation of a 2D image that simulates a 3D environment.
+ * This is known as a "2.5D" technique, as it creates the illusion of depth.
+ *
+ * Raycasting is computationally efficient and can produce realistic results.
+ * It is popularly used in video games to create realistic 3D graphics.
+ * It was used in early first-person shooter games like Wolfenstein 3D & Doom.
+ *
  * @renderer: The renderer to use
  * @player: The player structure
  */

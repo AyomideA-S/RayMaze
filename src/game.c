@@ -47,6 +47,7 @@ int (*get_default_map())[MAP_WIDTH]
 void game_loop(SDL_Renderer *renderer)
 {
 	int quit = 0;
+	SDL_Event event;
 
 	/* Set up player's initial state */
 	/* Initial position, direction, plane, speed, rotation speed, pitch */
@@ -54,6 +55,14 @@ void game_loop(SDL_Renderer *renderer)
 
 	while (!quit)
 	{
+		/* Handle events */
+		while (SDL_PollEvent(&event) != 0)
+		{
+			/* Handle quit event */
+			if (event.type == SDL_QUIT)
+				quit = 1;
+		}
+
 		/* Clear screen */
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 		SDL_RenderClear(renderer);
