@@ -38,7 +38,7 @@ sudo apt-get install libsdl2-dev
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/RayMaze.git
+    git clone https://github.com/AyomideA-S/RayMaze.git
     cd RayMaze
     ```
 
@@ -54,3 +54,10 @@ Run the game:
 
 ```bash
 ./bin/RayMaze
+```
+
+Alternatively, you can run the Bash script:
+
+```bash
+./run.sh
+```

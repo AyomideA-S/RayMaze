@@ -146,29 +146,31 @@ void render_scene(SDL_Renderer *renderer, Player *player)
 	/* Loop through each column of the screen */
 	for (int x = 0; x < SCREEN_WIDTH; x++)
 	{
-		double ray_dir_x = 0, ray_dir_y = 0;	   /* Ray direction */
-		int map_x = 0, map_y = 0;				   /* Map positions */
-		double delta_dist_x = 0, delta_dist_y = 0; /* Delta distances */
-		double side_dist_x = 0, side_dist_y = 0;   /* Side distances */
-		int step_x = 0, step_y = 0;				   /* Step direction */
-		int line_height = 0, side = 0;			   /* NS or EW wall hit? (NS=0, EW=1) */
-		double perp_wall_dist = 0;				   /* Perpendicular wall distance */
+		double ray_dir_x = 0, ray_dir_y = 0;				/* Ray direction */
+		int map_x = 0, map_y = 0;							/* Map positions */
+		double delta_dist_x = 0, delta_dist_y = 0;		/* Delta distances */
+		double side_dist_x = 0, side_dist_y = 0;		/* Side distances */
+		int step_x = 0, step_y = 0;						/* Step direction */
+		int line_height = 0, side = 0;	/* NS or EW wall hit? (NS=0, EW=1) */
+		double perp_wall_dist = 0;			/* Perpendicular wall distance */
+		int hit = 0;									/* Was a wall hit? */
 
 		/* Calculate ray direction and map position */
 		calculate_ray_direction(player, x, &ray_dir_x, &ray_dir_y,
 								&delta_dist_x, &delta_dist_y, &map_x, &map_y);
-
 		/* Determine step direction and initial side distance values */
 		calculate_step_and_side_dist(ray_dir_x, ray_dir_y, player->pos_x,
 										player->pos_y, map_x, map_y, delta_dist_x,
 										delta_dist_y, &step_x, &step_y,
 										&side_dist_x, &side_dist_y);
-
+		/* Perform DDA (Digital Differential Analysis) algorithm */
+		perform_dda(&side_dist_x, &side_dist_y, delta_dist_x,
+					delta_dist_y, &map_x, &map_y, step_x, step_y,
+					&side, get_default_map(), &hit);
 		/* Calculate distance to the point of impact and line height */
 		calculate_distance_and_height(map_x, map_y, step_x, step_y, ray_dir_x,
 										ray_dir_y, player->pos_x, player->pos_y,
 										side, &perp_wall_dist, &line_height);
-
 		/* Calculate lowest and highest pixel to fill in current stripe */
 		int draw_start = -line_height / 2 + SCREEN_HEIGHT / 2 +
 							(int)(player->pitch * SCREEN_HEIGHT / 2);
