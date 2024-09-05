@@ -171,17 +171,15 @@ void render_scene(SDL_Renderer *renderer, Player *player)
 								&delta_dist_x, &delta_dist_y, &map_x, &map_y);
 		/* Determine step direction and initial side distance values */
 		calculate_step_and_side_dist(ray_dir_x, ray_dir_y, player->pos_x,
-										player->pos_y, map_x, map_y, delta_dist_x,
-										delta_dist_y, &step_x, &step_y,
-										&side_dist_x, &side_dist_y);
+			player->pos_y, map_x, map_y, delta_dist_x, delta_dist_y, &step_x,
+			&step_y, &side_dist_x, &side_dist_y);
 		/* Perform DDA (Digital Differential Analysis) algorithm */
-		perform_dda(&side_dist_x, &side_dist_y, delta_dist_x,
-					delta_dist_y, &map_x, &map_y, step_x, step_y,
-					&side, get_default_map(), &hit);
+		handle_map(&side_dist_x, &side_dist_y, delta_dist_x, delta_dist_y,
+			&map_x, &map_y, step_x, step_y, &side, &hit);
 		/* Calculate distance to the point of impact and line height */
 		calculate_distance_and_height(map_x, map_y, step_x, step_y, ray_dir_x,
-										ray_dir_y, player->pos_x, player->pos_y,
-										side, &perp_wall_dist, &line_height);
+			ray_dir_y, player->pos_x, player->pos_y, side, &perp_wall_dist,
+			&line_height);
 		/* Calculate lowest and highest pixel to fill in current stripe */
 		int draw_start = -line_height / 2 + SCREEN_HEIGHT / 2 +
 							(int)(player->pitch * SCREEN_HEIGHT / 2);
