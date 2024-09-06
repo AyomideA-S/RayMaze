@@ -151,8 +151,9 @@ void draw_vertical_line(SDL_Renderer *renderer, int x, int draw_start,
  *
  * @renderer: The renderer to use
  * @player: The player structure
+ * @world_map: The 2D array representing the world map
  */
-void render_scene(SDL_Renderer *renderer, Player *player)
+void render_scene(SDL_Renderer *renderer, Player *player, int **world_map)
 {
 	/* Loop through each column of the screen */
 	for (int x = 0; x < SCREEN_WIDTH; x++)
@@ -174,8 +175,8 @@ void render_scene(SDL_Renderer *renderer, Player *player)
 			player->pos_y, map_x, map_y, delta_dist_x, delta_dist_y, &step_x,
 			&step_y, &side_dist_x, &side_dist_y);
 		/* Perform DDA (Digital Differential Analysis) algorithm */
-		handle_map(&side_dist_x, &side_dist_y, delta_dist_x, delta_dist_y,
-			&map_x, &map_y, step_x, step_y, &side, &hit);
+		perform_dda(&side_dist_x, &side_dist_y, delta_dist_x, delta_dist_y,
+			&map_x, &map_y, step_x, step_y, &side, world_map, &hit);
 		/* Calculate distance to the point of impact and line height */
 		calculate_distance_and_height(map_x, map_y, step_x, step_y, ray_dir_x,
 			ray_dir_y, player->pos_x, player->pos_y, side, &perp_wall_dist,

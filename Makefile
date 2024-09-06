@@ -6,7 +6,7 @@ CFLAGS = -Wall -Werror -Wextra -pedantic -O2 `sdl2-config --cflags`
 # IFLAGS specifies the include flags
 IFLAGS = -I include
 # LFLAGS specifies the linker flags
-LFLAGS = `sdl2-config --libs`
+LFLAGS = `sdl2-config --libs` -lm
 
 # SRC specifies the source files
 SRC = src
@@ -43,7 +43,7 @@ $(OBJ)/%.o: $(SRC)/%.c
 
 # This rule deletes all Emacs and Vim temporary files along with the executable
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -rf $(OBJ) $(BIN)
 
 # This rule forces recompilation of all source files
 re: clean all

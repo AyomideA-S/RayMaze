@@ -91,6 +91,32 @@ void free_map(int **map, int height)
 }
 
 /**
+ * convert_to_int_ptr - Convert a 2D array to int**
+ *
+ * @array: The 2D array to convert
+ * @width: The width of the array
+ * @height: The height of the array
+ *
+ * Return: A pointer to a 2D array of int**
+ */
+int **convert_to_int_ptr(int array[][MAP_WIDTH], int width, int height)
+{
+	int **map = allocate_map(width, height);
+	/* Check if memory allocation was successful */
+	if (!map)
+		return (NULL);
+	/* Copy the contents of the array to the map */
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			map[i][j] = array[i][j];
+		}
+	}
+	return (map);
+}
+
+/**
  * get_map_from_file - Get the map from a file
  *
  * @filename: The name of the file to read
@@ -106,25 +132,29 @@ int **get_map_from_file(const char *filename, int *width, int *height)
 	if (!file)
 	{
 		perror("Failed to open file");
-		return (NULL);
+		/* Return the default map if the file does not exist */
+		*width = (int)MAP_WIDTH, *height = (int)MAP_HEIGHT;
+		return (convert_to_int_ptr(get_default_map(), MAP_WIDTH, MAP_HEIGHT));
 	}
-
 	if (fscanf(file, "%d %d", width, height) != 2)
 	{
 		perror("Failed to read dimensions");
 		fclose(file);
-		return (NULL);
+		/* Return the default map if the dimensions are not found */
+		*width = (int)MAP_WIDTH, *height = (int)MAP_HEIGHT;
+		return (convert_to_int_ptr(get_default_map(), MAP_WIDTH, MAP_HEIGHT));
 	}
-
 	int **map = allocate_map(*width, *height);
 	/* Check if memory allocation was successful */
 	if (!map)
 	{
 		perror("Failed to allocate memory for map");
 		fclose(file);
-		return (NULL);
+		/* Return the default map if memory allocation fails */
+		*width = (int)MAP_WIDTH, *height = (int)MAP_HEIGHT;
+		return (convert_to_int_ptr(get_default_map(), MAP_WIDTH, MAP_HEIGHT));
 	}
-
+	/* Read the map data from the file */
 	for (int i = 0; i < *height; i++)
 	{
 		for (int j = 0; j < *width; j++)
@@ -132,13 +162,15 @@ int **get_map_from_file(const char *filename, int *width, int *height)
 			if (fscanf(file, "%d", &map[i][j]) != 1)
 			{
 				perror("Failed to read map data");
-				free_map(map, *height);
 				fclose(file);
-				return (NULL);
+				free_map(map, *height);
+				/* Return the default map if reading map data fails */
+				*width = (int)MAP_WIDTH, *height = (int)MAP_HEIGHT;
+				return (convert_to_int_ptr(get_default_map(), MAP_WIDTH,
+						MAP_HEIGHT));
 			}
 		}
 	}
-
 	fclose(file);
 	return (map);
 }
