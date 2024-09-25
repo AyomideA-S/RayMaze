@@ -13,7 +13,7 @@ void move_forward(Player *player, int **world_map)
 		(int)player->pos_y] == 0)
 		player->pos_x += player->dir_x * player->move_speed;
 	if (world_map[(int)player->pos_x][(int)(player->pos_y + player->dir_y *
-		player->move_speed)] == 0)
+											player->move_speed)] == 0)
 		player->pos_y += player->dir_y * player->move_speed;
 }
 
@@ -29,7 +29,7 @@ void move_backward(Player *player, int **world_map)
 		(int)player->pos_y] == 0)
 		player->pos_x -= player->dir_x * player->move_speed;
 	if (world_map[(int)player->pos_x][(int)(player->pos_y - player->dir_y *
-		player->move_speed)] == 0)
+											player->move_speed)] == 0)
 		player->pos_y -= player->dir_y * player->move_speed;
 }
 

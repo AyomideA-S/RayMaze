@@ -33,6 +33,20 @@ typedef struct player
 	double pitch;
 } Player;
 
+/**
+ * enum log_destination - Log destination
+ *
+ * @LOG_TO_FILE: Log to file
+ * @LOG_TO_STDOUT: Log to standard output
+ * @LOG_TO_STDERR: Log to standard error
+ */
+typedef enum log_destination
+{
+	LOG_TO_FILE,
+	LOG_TO_STDOUT,
+	LOG_TO_STDERR
+} log_destination;
+
 /* Function to get the default map */
 int (*get_default_map())[MAP_WIDTH];
 
@@ -55,10 +69,14 @@ void rotate_right(Player *player);
 void update_pitch(Player *player, int key_states[]);
 
 /* Function to handle SDL events */
-void handle_events(int *quit, int key_states[]);
+void handle_events(SDL_Event *event, int *quit, int key_states[]);
 
 /* Function to update the game state */
 void update_game_state(Player *player, int key_states[], int **world_map);
+
+/* Function to log the player's state */
+void log_player_state(Player *player, int width, int height,
+					  log_destination destination);
 
 /* Game loop function */
 void game_loop(SDL_Renderer *renderer);
