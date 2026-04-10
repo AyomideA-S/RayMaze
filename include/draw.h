@@ -12,13 +12,14 @@
 #ifndef DRAW_H
 #define DRAW_H
 
-#include "main.h" // Include main header for screen dimensions and SDL types
-#include <stdint.h>
+#include "main.h"   // Include main header for screen dimensions and SDL types
+#include <stdint.h> // For uint32_t type
 
-/* Our global pixel buffer */
+/* Global color pixel buffer definition*/
 extern uint32_t color_buffer[SCREEN_WIDTH * SCREEN_HEIGHT];
 
 /* Function prototypes for drawing functions */
+
 void clear_color_buffer(uint32_t color);
 void draw_pixel(int x, int y, uint32_t color);
 void render_color_buffer(SDL_Renderer *renderer, SDL_Texture *texture);

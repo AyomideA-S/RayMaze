@@ -13,8 +13,8 @@
 #include "draw.h" // Include draw functions for rendering
 
 /**
- * @brief Prints an error message to the console for a given SDL object and
- * exits the program.
+ * @brief Prints an error message to the standard error stream for a given SDL
+ * object and exits the program.
  *
  * @param object_name The name of the SDL object that failed to initialize
  * (e.g., "Window", "Renderer", "Texture").
@@ -28,14 +28,14 @@ int print_error_and_exit(const char *object_name, SDL_Window *window,
 			 SDL_Renderer *renderer, SDL_Texture *texture,
 			 int status)
 {
-	printf("%s could not be created! SDL_Error: %s\n", object_name,
-	       SDL_GetError());
-	return (cleanup_and_exit(window, renderer, texture, status));
+	fprintf(stderr, "%s could not be created! SDL_Error: %s\n", object_name,
+		SDL_GetError());
+	return (cleanup_resources(window, renderer, texture, status));
 }
 
 /**
- * @brief Cleans up SDL resources and exits the program with the specified
- * status code.
+ * @brief Cleans up SDL resources and quits SDL subsystems then returns the
+ * provided exit code.
  *
  * @param window The SDL_Window to destroy, or NULL if not initialized.
  * @param renderer The SDL_Renderer to destroy, or NULL if not initialized.
@@ -44,8 +44,8 @@ int print_error_and_exit(const char *object_name, SDL_Window *window,
  * failure).
  * @return The provided exit code after cleanup.
  */
-int cleanup_and_exit(SDL_Window *window, SDL_Renderer *renderer,
-		     SDL_Texture *texture, int status)
+int cleanup_resources(SDL_Window *window, SDL_Renderer *renderer,
+		      SDL_Texture *texture, int status)
 {
 	/* Clean up SDL resources if they were initialized */
 	/* Destroy the texture */
@@ -84,21 +84,21 @@ int main(int argc, char *argv[])
 		return (1);
 	}
 
-	/* Initialize SDL Window */
+	/* The SDL window for the application */
 	SDL_Window *window = SDL_CreateWindow(
 	    "RayMaze", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 	    SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL)
 		return (print_error_and_exit("Window", window, NULL, NULL, 1));
 
-	/* Initialize SDL Renderer */
+	/* The SDL renderer for rendering */
 	SDL_Renderer *renderer =
 	    SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if (renderer == NULL)
 		return (print_error_and_exit("Renderer", window, renderer, NULL,
 					     1));
 
-	/* Initialize SDL Texture */
+	/* The SDL texture for rendering */
 	SDL_Texture *texture = SDL_CreateTexture(
 	    renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
 	    SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -107,10 +107,11 @@ int main(int argc, char *argv[])
 					     texture, 1));
 
 	/* Main event loop to keep the window open until the user closes it */
-	SDL_Event e;
-	bool quit = false;
+	SDL_Event e;	   /**< The SDL event structure for handling events */
+	bool quit = false; /**< Flag to control the main loop */
 	while (quit == false) {
-		clear_color_buffer(0xFF000000);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_RenderClear(renderer);
 		draw_rect(50, 50, 100, 100,
 			  0xFFFF0000); // Example: Draw a red rectangle
 		render_color_buffer(renderer, texture);
@@ -122,5 +123,5 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	return (cleanup_and_exit(window, renderer, texture, 0));
+	return (cleanup_resources(window, renderer, texture, 0));
 }
