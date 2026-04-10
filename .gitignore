@@ -1,0 +1,13 @@
+# Compiled object files
+obj/
+*.o
+
+# Compiled executables
+bin/*.exe
+*.exe
+
+# VS Code workspace settings
+.vscode/
+
+# Ignore the vendor DLL if you accidentally drop it in the root
+SDL2.dll
