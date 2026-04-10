@@ -12,12 +12,6 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-/**
- * SDL_MAIN_HANDLED - This is for when not using the standard main function:
- * int main(int argc, char *argv[])
- */
-#define SDL_MAIN_HANDLED
-
 /* Include standard libraries */
 #include <stdbool.h> // For boolean type and values
 #include <stdio.h>
@@ -28,5 +22,8 @@
 /* Screen dimensions */
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
+
+/* Define function prototypes */
+void cleanup_and_exit(SDL_Window *window, int exit_code);
 
 #endif /* MAIN_H_ */

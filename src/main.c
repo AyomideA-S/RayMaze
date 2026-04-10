@@ -59,19 +59,24 @@ int main(int argc, char *argv[])
 		cleanup_and_exit(window, 1);
 	}
 
-	/* Get the window surface */
-	SDL_Surface *screenSurface = SDL_GetWindowSurface(window);
-	if (screenSurface == NULL) {
-		printf("Surface could not be created! SDL_Error: %s\n",
+	/* Initialize SDL Renderer */
+	SDL_Renderer *renderer =
+	    SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	if (renderer == NULL) {
+		printf("Renderer could not be created! SDL_Error: %s\n",
 		       SDL_GetError());
 		cleanup_and_exit(window, 1);
 	}
 
-	/* Fill the window surface with white color */
-	SDL_FillRect(screenSurface, NULL,
-		     SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-	/* Update the window surface to show the changes */
-	SDL_UpdateWindowSurface(window);
+	/* Initialize SDL Texture */
+	SDL_Texture *texture = SDL_CreateTexture(
+	    renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
+	    SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (texture == NULL) {
+		printf("Texture could not be created! SDL_Error: %s\n",
+		       SDL_GetError());
+		cleanup_and_exit(window, 1);
+	}
 
 	/* Main event loop to keep the window open until the user closes it */
 	SDL_Event e;
@@ -83,6 +88,10 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	/* Clean up renderer */
+	SDL_DestroyRenderer(renderer);
+	/* Destroy the texture */
+	SDL_DestroyTexture(texture);
 	/* Destroy the window */
 	SDL_DestroyWindow(window);
 	/* Clean up and exit */
