@@ -14,20 +14,21 @@
 
 /* Include standard libraries */
 #include <stdbool.h> // For boolean type and values
-#include <stdio.h>
+#include <stdio.h>   // For input/output functions like printf and fprintf
 
 /* Include SDL2 library */
 #include <SDL2/SDL.h>
 
 /* Screen dimensions */
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 640  /**< Screen width in pixels */
+#define SCREEN_HEIGHT 480 /**< Screen height in pixels */
 
 /* Define function prototypes */
+
 int print_error_and_exit(const char *object_name, SDL_Window *window,
 			 SDL_Renderer *renderer, SDL_Texture *texture,
 			 int status);
-int cleanup_and_exit(SDL_Window *window, SDL_Renderer *renderer,
-		     SDL_Texture *texture, int status);
+int cleanup_resources(SDL_Window *window, SDL_Renderer *renderer,
+		      SDL_Texture *texture, int status);
 
 #endif /* MAIN_H_ */

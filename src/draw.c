@@ -46,9 +46,14 @@ void draw_pixel(int x, int y, uint32_t color)
  */
 void render_color_buffer(SDL_Renderer *renderer, SDL_Texture *texture)
 {
-	SDL_UpdateTexture(texture, NULL, color_buffer,
-			  SCREEN_WIDTH * sizeof(uint32_t));
-	SDL_RenderCopy(renderer, texture, NULL, NULL);
+	if (SDL_UpdateTexture(texture, NULL, color_buffer,
+			      SCREEN_WIDTH * sizeof(uint32_t)) != 0) {
+		fprintf(stderr, "Error updating texture: %s\n", SDL_GetError());
+	}
+	if (SDL_RenderCopy(renderer, texture, NULL, NULL) != 0) {
+		fprintf(stderr, "Error copying texture to renderer: %s\n",
+			SDL_GetError());
+	}
 }
 
 /** @brief Draws a rectangle at the specified coordinates with the given width,
