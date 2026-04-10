@@ -1,0 +1,13 @@
+# Use a base style that closely matches classic C
+BasedOnStyle: LLVM
+
+# Enforce Tabs over Spaces
+UseTab: Always
+IndentWidth: 8
+TabWidth: 8
+
+# Keep lines from getting too long
+ColumnLimit: 80
+
+# Classic C brace wrapping (braces on the next line for functions)
+BreakBeforeBraces: Linux
