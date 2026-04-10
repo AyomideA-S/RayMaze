@@ -11,3 +11,4 @@ bin/*.exe
 
 # Ignore the vendor DLL if you accidentally drop it in the root
 SDL2.dll
+sdl2-config

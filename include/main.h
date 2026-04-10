@@ -24,6 +24,10 @@
 #define SCREEN_HEIGHT 480
 
 /* Define function prototypes */
-void cleanup_and_exit(SDL_Window *window, int exit_code);
+int print_error_and_exit(const char *object_name, SDL_Window *window,
+			 SDL_Renderer *renderer, SDL_Texture *texture,
+			 int status);
+int cleanup_and_exit(SDL_Window *window, SDL_Renderer *renderer,
+		     SDL_Texture *texture, int status);
 
 #endif /* MAIN_H_ */
